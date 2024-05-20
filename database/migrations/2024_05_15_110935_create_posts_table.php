@@ -11,16 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Удаляем таблицу, если она уже существует
+        Schema::dropIfExists('posts');
+
+        // Создаем таблицу заново
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('category_id')->nullable();
+
             $table->string('title');
             $table->text('content')->nullable();
-            $table->string('image');
-            $table->unsignedBigInteger('likes');
-            $table->boolean('is_published')->default(1);
-            $table->string('slug');
+            $table->string('image')->nullable();
+            $table->unsignedBigInteger('likes')->default(0);
+            $table->boolean('is_published')->default(true);
+            $table->string('slug')->unique();
             $table->timestamps();
+
             $table->softDeletes();
+
+            $table->index('category_id', 'posts_category_idx');
+            $table->foreign('category_id', 'post_category_fk')
+                ->references('id')->on('categories')
+                ->onDelete('set null');
         });
     }
 
