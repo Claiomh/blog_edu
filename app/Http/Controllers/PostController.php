@@ -36,7 +36,7 @@ class PostController extends Controller
         $tags = $data['tags'];
         unset($data['tags']);
 
-
+//dd($data);
         $post = Post::create($data);
 
         $post->tags()->attach($tags);

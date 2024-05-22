@@ -9,6 +9,15 @@ class Post extends Model
 {
     use HasFactory;
 
+protected $guarded = false;
+//    protected $fillable = [
+//        'title', // Добавляем 'title' к массиву fillable
+//        'content',
+//        'slug',
+//        'category_id',
+//        'image'
+//        // Другие поля, разрешенные для массового заполнения
+//    ];
     public function category() {
         return $this->belongsTo(Category::class);
     }
